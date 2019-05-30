@@ -9,15 +9,33 @@ use_curl(){
     BOOL=0
     PORT=19999
     PORT_ERROR=00000
-
-    curl --connect-timeout 5 http://cbuoy.cyverse.org:200 >& /dev/null
-    if [ $? -gt 0 ]
-    then
-        BOOL=1
-        PORT_ERROR=1247
-
-    fi
+    while [[ $COUNTER -lt 402 ]]; do
+        if [[ $COUNTER = 0 ]]
+        then
+            curl --connect-timeout 5 http://cbuoy.cyverse.org:1247 >& /dev/null
+            if [ $? -gt 0 ]
+            then
+                BOOL=1
+                PORT_ERROR=1247
+                break
+            fi
         # COUNTER should be > 0 here
+        else
+            NUM=$(( $PORT + $COUNTER ))
+            echo $NUM
+            curl --connect-timeout 5 http://cbuoy.cyverse.org:$NUM >& /dev/null
+            echo $?
+            if [[ $? -ne 0 ]]
+            then
+                echo "bad"
+                BOOL=1
+                PORT_ERROR=$NUM
+                break
+            fi
+        fi
+        let COUNTER=COUNTER+1
+    done
+
 
 
     if [ $BOOL -eq 0 ]
