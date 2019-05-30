@@ -13,7 +13,7 @@ use_curl(){
     while [[ $COUNTER -lt 401 ]]; do
         if [[ $COUNTER = 0 ]]
         then
-            curl --connect-timeout 5 http://cbuoy.cyverse.org:12470 >& /dev/null
+            curl --connect-timeout 5 http://cbuoy.cyverse.org:1247 >& /dev/null
             if [ $? -gt 0 ]
             then
                 BOOL=1
@@ -23,13 +23,10 @@ use_curl(){
         # COUNTER should be > 0 here
         else
             NUM=$(( $PORT + $COUNTER ))
-            echo $NUM
             curl --connect-timeout 5 http://cbuoy.cyverse.org:$NUM >& /dev/null
-            echo $?
-            # THERE IS SOMETHING WRONG HERE
             if [[ $? -ne $ZER0 ]]
             then
-                echo "bad"
+                #echo "bad"
                 BOOL=1
                 PORT_ERROR=$NUM
                 break
