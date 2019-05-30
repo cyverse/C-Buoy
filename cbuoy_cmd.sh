@@ -6,13 +6,14 @@ exist(){
 
 use_curl(){
     COUNTER=0
+    ZERO=0
     BOOL=0
     PORT=19999
     PORT_ERROR=00000
-    while [[ $COUNTER -lt 402 ]]; do
+    while [[ $COUNTER -lt 401 ]]; do
         if [[ $COUNTER = 0 ]]
         then
-            curl --connect-timeout 5 http://cbuoy.cyverse.org:1247 >& /dev/null
+            curl --connect-timeout 5 http://cbuoy.cyverse.org:12470 >& /dev/null
             if [ $? -gt 0 ]
             then
                 BOOL=1
@@ -25,7 +26,8 @@ use_curl(){
             echo $NUM
             curl --connect-timeout 5 http://cbuoy.cyverse.org:$NUM >& /dev/null
             echo $?
-            if [[ $? -ne 0 ]]
+            # THERE IS SOMETHING WRONG HERE
+            if [[ $? -ne $ZER0 ]]
             then
                 echo "bad"
                 BOOL=1
