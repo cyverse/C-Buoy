@@ -28,8 +28,8 @@ main(){
             is_success
         # if both are not available
         else
-            echo "ERROR: $CMD1 does not exist!"
-            echo "Please install curl, and try running the program again."
+            echo "ERROR: $CMD1 or $CMD2 does not exist!"
+            echo "Please install curl or wget, and try running the program again."
         fi
     fi
 }
@@ -44,7 +44,7 @@ exist(){
 test_connection(){
     # checking the Port 1247 first
     run_cmd 1247
-    if [ $? -gt 0 ]
+    if [ $? -ne 0 ]
     then
         CONNECT_SUCCCESS=1
         PORT_ERROR=1247
@@ -53,7 +53,7 @@ test_connection(){
     #checking Ports 20000-20399
     for PORT in $(seq $PORT_START $PORT_END); do
         run_cmd $PORT
-        if [ $? -gt 0 ]
+        if [ $? -ne 0 ]
         then
             CONNECT_SUCCCESS=1
             PORT_ERROR=$PORT
@@ -93,7 +93,7 @@ is_success(){
     then
         print_error
     else
-        print_success
+        echo "You are connected!"
     fi
 }
 
@@ -102,11 +102,6 @@ print_error(){
     echo "ERROR: Port connection error found."
     IP=$(curl -s ifconfig.co)
     echo "IP Address ($IP) cannot establish connection with port $PORT_ERROR."
-}
-
-# prints a success message
-print_success(){
-    echo "You are connected!"
 }
 
 main
