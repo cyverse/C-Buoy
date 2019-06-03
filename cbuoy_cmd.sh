@@ -8,7 +8,7 @@ PORT_ERROR=0
 CMD1=curl
 CMD2=wget
 CMD_TO_USE=curl                 # default command for cbuoy test connection
-
+CBUOY=http://cbuoy.cyverse.org
 
 main(){
     # checking if curl exist
@@ -77,14 +77,14 @@ run_cmd(){
 # curl command
 # sets the connection timeout to 5 seconds
 use_curl(){
-    $CMD1 --connect-timeout $TIME_OUT http://cbuoy.cyverse.org:$1 >& /dev/null
+    $CMD1 --connect-timeout $TIME_OUT $CBUOY:$1 >& /dev/null
 }
 
 # wget command
 # sets the connection timeout to 5 seconds and limits the retry connection to one
 # --spider option prevents downloading the source's *.html file (index.html)
 use_wget(){
-    $CMD2 --spider --connect-timeout=$TIME_OUT --tries=1 http://cbuoy.cyverse.org:$1 >& /dev/null
+    $CMD2 --spider --connect-timeout=$TIME_OUT --tries=1 $CBUOY:$1 >& /dev/null
 }
 
 # this function checks the connection response and prints the appropriate message
