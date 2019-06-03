@@ -9,7 +9,7 @@ PORT_ERROR=0
 CMD1=curl
 CMD2=wget
 CMD_TO_USE=curl                 # default command for cbuoy test connection
-CBUOY=http://cbuoy.cyverse.org
+URL=http://cbuoy.cyverse.org
 
 main(){
     # checking if curl exist
@@ -35,7 +35,6 @@ main(){
         fi
     fi
 }
-
 
 # this function checks if a command is intalled in the system
 exist(){
@@ -89,14 +88,14 @@ run_cmd(){
 # curl command
 # sets the connection timeout to 5 seconds
 use_curl(){
-    $CMD1 --connect-timeout $TIME_OUT $CBUOY:$1 >& /dev/null
+    $CMD1 --connect-timeout $TIME_OUT $URL:$1 >& /dev/null
 }
 
 # wget command
 # sets the connection timeout to 5 seconds and limits the retry connection to one
 # --spider option prevents downloading the source's *.html file (index.html)
 use_wget(){
-    $CMD2 --spider --connect-timeout=$TIME_OUT --tries=1 $CBUOY:$1 >& /dev/null
+    $CMD2 --spider --connect-timeout=$TIME_OUT --tries=1 $URL:$1 >& /dev/null
 }
 
 # this function checks the connection response and prints the appropriate message
@@ -107,24 +106,29 @@ is_success(){
         print_error
     else
         echo ""
-        echo "You are connected!"
+        echo "Testing finished."
+        echo "Success! No connection issues detected."
+        echo "We found no connectivity issues between your system and our test server."
+        echo "You should be able to fully connect to the Data Store from your system."
+        echo "If you experience any issues, please contact Cyverse Support at support@cyverse.org."
     fi
 }
 
 # prints an error message
 print_error(){
-    echo "ERROR: Port connection error found."
+    echo "ERROR: Port connection error detected."
     IP=$(curl -s ifconfig.co)
     echo "IP Address ($IP) cannot establish connection with port $PORT_ERROR."
 }
 
+# message indication that the testing has starteds
 begin_msg(){
     echo "Testing started. Please wait..."
 }
 
+# testing progress message
 testing_msg(){
     printf "%d of $NUMBER_OF_TESTS tests complete / %d failed\r" "$1" "$2"
 }
-
 
 main
