@@ -4,6 +4,7 @@ CONNECT_SUCCCESS=0
 TIME_OUT=5
 PORT_START=20000
 PORT_END=20399
+NUMBER_OF_TESTS=$((PORT_END - PORT_START + 2))
 PORT_ERROR=0
 CMD1=curl
 CMD2=wget
@@ -15,15 +16,16 @@ main(){
     if exist $CMD1
     then
         CMD_TO_USE=$CMD1
+        begin_msg
         test_connection
         is_success
     # if curl doesn't exist
-    #
     else
         # checking if wget exist
         if exist $CMD2
         then
             CMD_TO_USE=$CMD2
+            begin_msg
             test_connection
             is_success
         # if both are not available
@@ -42,13 +44,19 @@ exist(){
 
 # this function tests the connection between the server and the assigned ports
 test_connection(){
+    TEST_COUNT=0
+    testing_msg 0 0
     # checking the Port 1247 first
     run_cmd 1247
     if [ $? -ne 0 ]
     then
         CONNECT_SUCCCESS=1
         PORT_ERROR=1247
+        testing_msg $TEST_COUNT 1
         return
+    else
+        TEST_COUNT=1
+        testing_msg $TEST_COUNT 0
     fi
     #checking Ports 20000-20399
     for PORT in $(seq $PORT_START $PORT_END); do
@@ -57,7 +65,11 @@ test_connection(){
         then
             CONNECT_SUCCCESS=1
             PORT_ERROR=$PORT
+            testing_msg $TEST_COUNT 1
             return
+        else
+            TEST_COUNT=$((TEST_COUNT + 1))
+            testing_msg $TEST_COUNT 0
         fi
     done
 }
@@ -91,8 +103,10 @@ use_wget(){
 is_success(){
     if [ $CONNECT_SUCCCESS -eq 1 ]
     then
+        echo ""
         print_error
     else
+        echo ""
         echo "You are connected!"
     fi
 }
@@ -103,5 +117,14 @@ print_error(){
     IP=$(curl -s ifconfig.co)
     echo "IP Address ($IP) cannot establish connection with port $PORT_ERROR."
 }
+
+begin_msg(){
+    echo "Testing started. Please wait..."
+}
+
+testing_msg(){
+    printf "%d of $NUMBER_OF_TESTS tests complete / %d failed\r" "$1" "$2"
+}
+
 
 main
