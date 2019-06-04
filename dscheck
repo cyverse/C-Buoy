@@ -130,7 +130,7 @@ print_error(){
 
 # message indication that the testing has starteds
 begin_msg(){
-    echo "Testing started. Please wait..."
+    echo "dstest will test your connectivity to the CyVerse Data Store. Testing started. Please wait..."
 }
 
 # testing progress message
