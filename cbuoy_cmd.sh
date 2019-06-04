@@ -11,6 +11,7 @@ CMD2=wget
 CMD_TO_USE=curl                 # default command for cbuoy test connection
 URL=http://cbuoy.cyverse.org
 
+
 main(){
     # checking if curl exist
     if exist $CMD1
@@ -43,32 +44,38 @@ exist(){
 
 # this function tests the connection between the server and the assigned ports
 test_connection(){
+    # ASCII characters for the "working" indicator
+    CHAR=( '\U25D4' '\U25D1' '\U25D5' '\U25CF' )
     TEST_COUNT=0
-    testing_msg 0 0
+    testing_msg 0 0 ${CHAR[0]}
     # checking the Port 1247 first
     run_cmd 1247
     if [ $? -ne 0 ]
     then
         CONNECT_SUCCCESS=1
         PORT_ERROR=1247
-        testing_msg $TEST_COUNT 1
+        testing_msg $TEST_COUNT 1 ${CHAR[0]}
         return
     else
         TEST_COUNT=1
-        testing_msg $TEST_COUNT 0
+        testing_msg $TEST_COUNT 0 ${CHAR[0]}
     fi
     #checking Ports 20000-20399
     for PORT in $(seq $PORT_START $PORT_END); do
+        # the next two lines takes care of the transition speed of the "working" indicator
+        NUM=$(( PORT / 25 ))
+        IDX=$(( NUM % 4 ))
+
         run_cmd $PORT
         if [ $? -ne 0 ]
         then
             CONNECT_SUCCCESS=1
             PORT_ERROR=$PORT
-            testing_msg $TEST_COUNT 1
+            testing_msg $TEST_COUNT 1 ${CHAR[$IDX]}
             return
         else
             TEST_COUNT=$((TEST_COUNT + 1))
-            testing_msg $TEST_COUNT 0
+            testing_msg $TEST_COUNT 0 ${CHAR[$IDX]}
         fi
     done
 }
@@ -128,7 +135,8 @@ begin_msg(){
 
 # testing progress message
 testing_msg(){
-    printf "%d of $NUMBER_OF_TESTS tests complete / %d failed\r" "$1" "$2"
+    printf " $3 %d of $NUMBER_OF_TESTS tests complete / %d failed\r" "$1" "$2"
 }
+
 
 main
