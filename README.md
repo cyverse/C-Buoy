@@ -8,3 +8,5 @@ The first thing that this program checks is whether your sytem has a 'curl' or '
 These tests will identify if a connection problem exist betweeen your system and the ports available. If a connection problem is detected, the testing stops immediately and reports an error message that lets you know which port is having an issue connecting to your system. If there is no error detected, the program displays a success message.
 
 Note: If the tests begin to slow down over time, then your internet provider may be throttling connections.
+
+Video demo: https://asciinema.org/a/llPCRS7kKQn5zkQLdoFh2TtJs
