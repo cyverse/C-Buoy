@@ -45,7 +45,7 @@ exist(){
 # this function tests the connection between the server and the assigned ports
 test_connection(){
     # ASCII characters for the "working" indicator
-    CHAR=( '\U25D4' '\U25D1' '\U25D5' '\U25CF' )
+    CHAR=( '\' '|' '/' '--' )
     TEST_COUNT=0
     testing_msg 0 0 ${CHAR[0]}
     # checking the Port 1247 first
