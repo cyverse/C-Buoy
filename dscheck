@@ -45,8 +45,7 @@ exist(){
 # this function tests the connection between the server and the assigned ports
 test_connection(){
     # ASCII characters for the "working" indicator
-    #CHAR=( '\U25D4' '\U25D1' '\U25D5' '\U25CF' )
-    CHAR=( '\' '|' '/' '-' )
+    CHAR=( '\U25D4' '\U25D1' '\U25D5' '\U25CF' )
     TEST_COUNT=0
     testing_msg 0 0 ${CHAR[0]}
     # checking the Port 1247 first
@@ -131,7 +130,7 @@ print_error(){
 
 # message indication that the testing has starteds
 begin_msg(){
-    echo "Testing started. Please wait..."
+    echo "dscheck will test your connectivity to the CyVerse Data Store. Testing started. Please wait..."
 }
 
 # testing progress message
