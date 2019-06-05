@@ -1,4 +1,4 @@
-# Check dscheck
+# dscheck
 Description: This program will perform a series of short network connections between your system and a CyVerse server to determine if there might be potential connectivity issues to the CyVerse Data Store. 
 
 To make this program executable, run the following commnand on your terminal: chmod +x <filename>
