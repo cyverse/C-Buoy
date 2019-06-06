@@ -9,7 +9,5 @@ These tests will identify if a connection problem exist betweeen your system and
 
 Note: If the tests begin to slow down over time, then your internet provider may be throttling connections.
 
-Video demo
-<video width="320" height="240" controls>
-  <source src="https://asciinema.org/a/llPCRS7kKQn5zkQLdoFh2TtJs" type="video/mp4">
-</video>
+DEMO:
+![Demo](https://user-images.githubusercontent.com/49571666/59071257-c2f50e80-8872-11e9-9f98-f590363ef2b2.gif)
